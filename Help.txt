@@ -1,0 +1,330 @@
+use async_graphql::{Context, FieldResult, Object, ID};
+
+#[derive(Default)]
+pub struct QueryRoot;
+
+#[Object]
+impl QueryRoot {
+    async fn get_user(
+        &self,
+        ctx: &Context<'_>,
+        id: ID,
+        info: &async_graphql::Info<'_>,
+    ) -> FieldResult<User> {
+        // Access context if needed
+        // Example: let my_service = ctx.data::<MyService>()?;
+
+        // Access field info if needed
+        // Example: let field_name = info.field_name;
+
+        // Resolver logic to fetch the user by ID
+        let user = User { id: id.to_string(), name: "John Doe".into() };
+        Ok(user)
+    }
+}
+
+
+// all 4 arguments
+
+
+////////////////////////////////////////////////////
+//use rust; // Replace with the name of your library
+#![allow(unused)]
+
+// imported packages native + 3rd party
+use ::std::cmp::Ordering;
+use rand::Rng;
+use rust::add; // 'my_crate' should be replaced with the crate's name defined in Cargo.toml
+use std::fs::File;
+use std::io::{BufRead, BufReader, ErrorKind, Write};
+use std::ops::Add;
+use std::str::Bytes;
+use std::{io, string, vec};
+
+fn main() {
+    // const ARI: i32 = 1;
+    println!("Enter Your Name");
+    let mut name = String::new();
+    // let greeting: String = "Nice to Meet you Nigga".to_owned();
+    // io::stdin()
+    //     .read_line(&mut name)
+    //     .expect("plz enter your input");
+    // println!("Hello from the binary!,{}", name.trim_end());
+
+    let mut val: String = "hello".to_owned();
+    val.push_str(", world!"); // This is valid, as `String` is mutable.
+
+    println!("{val}");
+
+    // using rand crate
+    let random_num: u8 = rand::thread_rng().gen_range(1..=10);
+    println!("the generated numbers are: {}", random_num);
+
+    //////////////////////// from scratch
+    let arr1: [&str; 2] = ["varrata mame"; 2];
+    let formatted_string = format!("The first element of the array is: {:?}", arr1.join("_|_"));
+    let length_arr1 = format!("The length of the array is: {}", arr1.len());
+    println!("🟢{}\n 🟢{}\n", formatted_string, length_arr1);
+
+    // matrix multiplications
+    let mat_1: [[u8; 3]; 2] = [[1, 2, 3], [2, 3, 4]];
+    // let mat_2: [[u32;9];500] = [[0;9];500];
+    // println!("th mat_2 is {:?}", mat_2);
+
+    let print_format = format!("the manipulated matrix is: {:?}", mat_1);
+    println!("{}", print_format);
+    // more advanced matrix multiplication
+    fn adding_matrices(matrix: &[[u8; 3]; 2], scalar: u8) -> [[u8; 3]; 2] {
+        let mut result = *matrix;
+        for row in result.iter_mut() {
+            for element in row.iter_mut() {
+                // *element = element.saturating_sub(scalar);  // for subraction
+                *element *= scalar
+            }
+        }
+        return result;
+    }
+
+    println!("multiplied x 2 {:?}", adding_matrices(&mat_1, 50));
+
+    // now time to learn vectors vec!
+
+    let mut numbers = vec![1, 1, 1, 1, 1, 1, 1, 1];
+    numbers.push(5);
+    numbers.pop();
+    println!("{:?}", numbers);
+
+    // time for oops concepts
+    // structs and impl methods calls
+    struct Validate;
+    impl Validate {
+        fn is_major(age: u32) -> bool {
+            // here u can pass the value with brandnew owner ship or just pass the reference alone &u32 //
+            return age >= 18;
+        }
+    }
+
+    let age = 10;
+    let finalized = Validate::is_major(age);
+    println!(
+        "You are {} and you are {} for voting",
+        age,
+        if (finalized) {
+            "eligible"
+        } else {
+            "not eligible"
+        }
+    );
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    let s1 = String::from("Hello, world!");
+
+    // Using to_owned
+    let s2: String = "Hello, world!".to_owned();
+
+    // Both `s1` and `s2` are of type `String` and contain "Hello, world!"
+    assert_eq!(s1, s2);
+
+    // lets work with generics
+
+    fn generic_fun<T: Add<Output = T>>(a: T, b: T) -> T {
+        return a + b;
+    }
+
+    println!("the added generic value is {}", generic_fun(10, 5)); // generic_fun(10.5,877.5)
+
+    // reference and dereference
+
+    let num_1: &u8 = &25;
+    let mut num_x = *num_1;
+    num_x = 39;
+    println!("{}", num_x);
+
+    // let num_1: &u8 = &25;    borrowing then modifying via mut + &
+    // let mut num_x: &u8 = &num_1;
+    // num_x = &39;
+    // println!("{}",num_x);
+
+    // let x = 5;
+    // let mut y: &i32 = &x;
+    // y = &10;
+    // println!("{}", y);
+
+    // closures in rust
+    let x = 10;
+    let add_x = |y: u32| x + age + y; // this closure captures and value of its surroundings too very powerful feature in rust
+    println!("Result: {}", add_x(5)); // Output: Result: 15
+
+    // return vs no return
+    // fn change_str(x: String)->String {
+    //   println!("{} is a Bitch", x);
+    //   return x;
+    // }
+
+    // let val8 = change_str(String::from("lol"));
+    // println!("{:#?}", val8)
+
+    // Match in rust
+
+    let my_lover = String::from("Lavanya");
+    match my_lover.as_str() {
+        "Lavanya" => println!("Lipe thozhachitiya Kumaaru.."),
+        _ => println!("Vaalthukal kumaar.. Apporo eppa kalyanam"),
+    }
+
+    let ab_num = 5;
+    match ab_num {
+        1 => println!("ONE"),
+        2 => println!("TWO"),
+        3 => println!("THREE"),
+        4 => println!("FOUR"),
+        5 => println!("FIVE"),
+        6 => println!("SIX"),
+        7 => println!("SEVEN"),
+        8 => println!("EIGHT"),
+        9 => println!("NINE"),
+        0 => println!("ZERO"),
+        1 => println!("ONE"),
+        _ => println!("Un_known"),
+    }
+
+    // cmp :: Ordering in RUST
+    let eligible = 18;
+    match age.cmp(&eligible) {
+        Ordering::Greater => println!("Eligible"),
+        Ordering::Less => println!("Not Eligible"),
+        Ordering::Equal => println!("Congrats you can VOTE"),
+    }
+
+    // using const Generics in rust
+
+    fn pooja<const N: usize>(arry: &[i32; N]) {
+        for val in arry {
+            println!("{}", val)
+        }
+    }
+    let tester = [1, 2, 1];
+    pooja(&tester);
+    // using match to get the data of array
+    match tester.get(5) {
+        Some(&ha) => println!("{}", &ha),
+        None => println!("Nothing present"),
+    }
+
+    // Mutability and Aliasing
+    let mut s = String::from("hello");
+
+    let r1 = &s;
+    let r2 = &s;
+
+    println!("{} and {}", r1, r2); // Use of immutable references
+
+    let r3 = &mut s; // Error: cannot borrow `s` as mutable because it is also borrowed as immutable
+    println!("{:?}", r3.as_bytes());
+
+    // lets get started with the oops concepts baby
+
+    struct Person {
+        name: String,
+        age: i16,
+        is_married: bool,
+    }
+
+    impl Person {
+        fn new(name: String, age: i16, is_married: bool) -> Person {
+            Person {
+                name,
+                age,
+                is_married,
+            }
+        }
+
+        fn display(&self) {
+            return println!(
+                "Your name is {}, age {} and you are {}",
+                self.name,
+                self.age,
+                if (self.is_married) {
+                    "married"
+                } else {
+                    "single"
+                }
+            );
+        }
+    }
+
+    let person_1 = Person::new("Ashish".to_string(), 45, false);
+    person_1.display();
+
+    // Life times in Rust beti
+
+    fn longer_string(word_1: &str, word_2: &str) {
+        if (word_1.len() == word_2.len()) {
+            println!("The both strings are of Same length Nigga..!!")
+        } else if (word_1.len() > word_2.len()) {
+            println!("{}", word_1);
+        } else {
+            println!("{}", word_2);
+        }
+    }
+
+    let string1 = String::from("abcd");
+    let string2 = "xyz";
+
+    longer_string(&string1, string2);
+
+    // Return the first word example with rust lifetime Ellisions
+
+    fn first_word(s: &str) -> () {
+        return println!("THe first word is = {}", &s[..=1]);
+    }
+
+    first_word("Poda potta");
+
+    // dangling reference and deference nigga
+
+    let var_1 = 10;
+    let var_2 = &var_1;
+    println!("{:#?}", *var_2); // if put "{:#P}", var_2 for reference variable it will print the memory address // this is called Deferencing
+                               //
+    let mut mut_var = 19;
+    let mut_var_2 = &mut mut_var;
+    *mut_var_2 = 90;
+    println!("{}", mut_var);
+    //println!("{:#p}", mut_var_2);
+    let x = 42;
+    let r1 = &x;
+    let r2 = &r1;
+    let r3 = &r2;
+    let r4 = &r3;
+    let r5 = &r4;
+    let r6 = &r5;
+    let r7 = &r6;
+    let r8 = &r7;
+    let r9 = &r8;
+
+    // Now we dereference 9 times
+    println!("**{}", *********r9); // Prints 42 // println!("*****{:#p}", ********r9); // Prints the memory address of r1
+
+    // test my self
+
+    let org_vec = vec![100,100,1, 2, 59, 3, 4, 5, 5, 7];
+    fn remove_duplicates(mut v: Vec<i32>) -> Vec<i32> {
+        v.dedup();
+        //v.sort();
+        println!("{:?}", v);
+        return v;
+    }
+
+    remove_duplicates(org_vec);
+
+    fn reverse_words(w: String)-> String{
+     let modified_words =  w.split_whitespace().rev().collect::<Vec<&str>>().join(" ");
+     println!("{}", modified_words);
+     return modified_words;
+     
+        
+    }
+
+    reverse_words("Yenda unna la atha pethichi illay Yaanai gina kakkichaa..??".to_string());
+    
+}
